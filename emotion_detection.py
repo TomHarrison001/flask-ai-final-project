@@ -12,4 +12,15 @@ def emotion_detector(text_to_analyse):
     # Parse the response from the API
     formatted_response = json.loads(response.text)
     
-    return formatted_response
+    emotions = formatted_response["emotionPredictions"][0]["emotion"]
+
+    score = 0
+    dominantEmotion = 'anger'
+    for key, value in emotions.items():
+        if value > score:
+            score = value
+            dominantEmotion = key
+
+    emotions["dominant_emotion"] = dominantEmotion
+
+    return emotions
